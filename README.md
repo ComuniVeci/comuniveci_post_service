@@ -11,6 +11,58 @@ Este servicio es responsable de la creación, edición, aprobación, eliminació
 - MongoDB (opcional) o repositorio en memoria
 - drf-spectacular (documentación Swagger / OpenAPI)
 
+---
+
+## 📦 Recomendación: Instalar Poetry con pipx
+
+Para evitar conflictos en tu sistema y mantener tus herramientas aisladas, recomendamos instalar Poetry usando pipx.
+
+### 🔹 ¿Qué es pipx?
+
+pipx es una herramienta que permite instalar comandos Python de forma aislada en entornos virtuales automáticos. Es ideal para herramientas como poetry, black, pre-commit, etc.
+
+Ventajas de usar pipx:
+
+- Cada herramienta se instala en su propio entorno virtual.
+- No contamina tu instalación global de Python.
+- Puedes desinstalar o actualizar fácilmente cada herramienta.
+
+### 🛠️ Instalación de pipx (una sola vez)
+
+En Ubuntu / Debian:
+
+```bash
+sudo apt install pipx
+pipx ensurepath
+```
+
+O si ya tienes pip:
+
+```bash
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+```
+
+Luego reinicia tu terminal o ejecuta:
+
+```bash
+source ~/.bashrc  # o source ~/.zshrc
+```
+
+### 🚀 Instalar Poetry con pipx
+
+```bash
+pipx install poetry
+```
+
+Para verificar:
+
+```bash
+poetry --version
+```
+
+---
+
 ## 🚀 Instalación y configuración
 
 1. Clonar el repositorio
