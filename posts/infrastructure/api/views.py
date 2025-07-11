@@ -8,6 +8,7 @@ from posts.usecases.update_post import update_post
 from posts.usecases.delete_post import delete_post
 from posts.usecases.list_pending_posts import get_pending_posts
 from posts.usecases.get_approved_posts import get_approved_posts
+from posts.usecases.get_post_summary import get_post_summary
 from posts.infrastructure.persistence.get_repository import get_post_repository
 from drf_spectacular.utils import extend_schema
 
@@ -96,3 +97,27 @@ class PostApprovedListView(APIView):
         repository = get_post_repository()
         posts = get_approved_posts(repository)
         return Response(PostSerializer(posts, many=True).data, status=status.HTTP_200_OK)
+    
+@extend_schema(
+    responses={
+        200: {
+            "type": "object",
+            "properties": {
+                "approved": {"type": "integer"},
+                "pending": {"type": "integer"},
+                "total": {"type": "integer"},
+            },
+            "example": {
+                "approved": 15,
+                "pending": 4,
+                "total": 19
+            }
+        }
+    },
+    description="Devuelve un resumen con la cantidad de publicaciones aprobadas, pendientes y el total."
+)
+class PostSummaryView(APIView):
+    def get(self, request):
+        repository = get_post_repository()
+        summary = get_post_summary(repository)
+        return Response(summary, status=status.HTTP_200_OK)
