@@ -26,4 +26,8 @@ class PostRepository(PostRepositoryInterface):
     
     def find_approved(self):
         return list(self.collection.find({"is_approved": True}))
+    
+    def find_by_email(self, email):
+        return list(self.collection.find({"contact_email": email}))
+
 
