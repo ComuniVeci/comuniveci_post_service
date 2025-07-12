@@ -26,4 +26,7 @@ class PostRepository(PostRepositoryInterface):
     
     def find_approved(self):
         return list(self.collection.find({"is_approved": True}))
+    
+    def find_by_user_id(self, user_id):
+        return list(self.collection.find({"user_id": user_id}))
 

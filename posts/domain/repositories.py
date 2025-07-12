@@ -27,3 +27,8 @@ class PostRepositoryInterface(ABC):
     def find_approved(self) -> list[dict]:
         """Retorna todos los posts aprobados."""
         pass
+
+    @abstractmethod
+    def find_by_user_id(self, user_id) -> list[dict]:
+        """Retorna todos los posts aprobados de un usuario."""
+        pass
