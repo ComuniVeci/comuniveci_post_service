@@ -6,7 +6,8 @@ from .views import (
     PostDeleteView,
     PostPendingListView,
     PostApprovedListView,
-    PostSummaryView
+    PostSummaryView,
+    PostByEmailView
 )
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path("posts/approved/", PostApprovedListView.as_view()),
     path('posts/', PostCreateView.as_view()),
     path("posts/summary/", PostSummaryView.as_view(), name="post-summary"),
+    path("posts/user/", PostByEmailView.as_view(), name="posts-by-user"),
     path('posts/<str:post_id>/approve/', ApprovePostView.as_view()),
     path('posts/<str:post_id>/', PostUpdateView.as_view()),
     path('posts/<str:post_id>/delete/', PostDeleteView.as_view()),
