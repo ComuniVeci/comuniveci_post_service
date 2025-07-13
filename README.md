@@ -1,15 +1,16 @@
 # ComuniVeci – Post Service
 
-Este servicio es responsable de la creación, edición, aprobación, eliminación y consulta de publicaciones dentro del sistema distribuido ComuniVeci. Fue desarrollado siguiendo principios de arquitectura hexagonal y expone una API RESTful desacoplada que puede ser consumida por el frontend u otros servicios como map-service.
+Este servicio es responsable de la creación, edición, aprobación, eliminación y consulta de publicaciones dentro del sistema distribuido ComuniVeci. Fue desarrollado siguiendo principios de arquitectura hexagonal y expone una API RESTful desacoplada que puede ser consumida por el frontend u otros servicios como map-service o admin-service.
 
 ## ⚙️ Tecnologías utilizadas
 
 - Python 3.13
 - Django 5.2
 - Django REST Framework
-- Poetry + pyenv para gestión del entorno
 - MongoDB (opcional) o repositorio en memoria
 - drf-spectacular (documentación Swagger / OpenAPI)
+- PyJWT (si se usa JWT opcionalmente)
+- poetry + pyenv para gestión del entorno
 
 ---
 
@@ -107,14 +108,16 @@ Documentación disponible en:
 
 ## 🧭 Endpoints disponibles
 
-| Método  | Endpoint                          | Descripción                                 |
-|---------|-----------------------------------|---------------------------------------------|
-| POST    | /api/posts/                       | Crea una nueva solicitud de publicación     |
-| PATCH   | /api/posts/{id}/                  | Edita parcialmente una publicación          |
-| PATCH   | /api/posts/{id}/approve/          | Aprueba una publicación                     |
-| DELETE  | /api/posts/{id}/delete/           | Elimina una publicación                     |
-| GET     | /api/posts/pending/               | Obtiene todas las publicaciones pendientes  |
-| GET     | /api/posts/approved/              | Obtiene todas las publicaciones aprobadas   |
+| Método | Endpoint                 | Descripción                                      |
+| ------ | ------------------------ | ------------------------------------------------ |
+| POST   | /api/posts/              | Crea una nueva solicitud de publicación          |
+| PATCH  | /api/posts/{id}/         | Edita parcialmente una publicación               |
+| PATCH  | /api/posts/{id}/approve/ | Aprueba una publicación                          |
+| DELETE | /api/posts/{id}/delete/  | Elimina una publicación                          |
+| GET    | /api/posts/pending/      | Obtiene todas las publicaciones pendientes       |
+| GET    | /api/posts/approved/     | Obtiene todas las publicaciones aprobadas        |
+| GET    | /api/posts/summary/      | Retorna conteo de aprobadas, pendientes y total  |
+| POST   | /api/posts/user/         | Retorna posts asociados a un usuario (por email) |
 
 ## 📁 Estructura del proyecto (Hexagonal)
 
@@ -125,10 +128,7 @@ Documentación disponible en:
   - serializers/: serializadores DRF
   - persistence/: adaptadores secundarios (repositorios)
 - settings/, manage.py: configuración Django
-
-## 💡 Modo sin base de datos
-
-Si usas REPO_MODE=memory, todos los datos viven solo durante la ejecución. Ideal para pruebas sin MongoDB.
+- manage.py: punto de entrada
 
 ## 🔒 Seguridad
 
@@ -174,3 +174,9 @@ Listar publicaciones aprobadas:
 
 ```bash
 curl -s http://127.0.0.1:8000/api/posts/approved/ | jq
+```
+
+## ✅ Integración
+- El endpoint /api/posts/user/ permite obtener posts por usuario desde el frontend.
+
+- El endpoint /api/posts/summary/ permite a admin-service mostrar estadísticas.
