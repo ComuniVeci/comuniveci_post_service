@@ -8,8 +8,10 @@ from posts.usecases.update_post import update_post
 from posts.usecases.delete_post import delete_post
 from posts.usecases.list_pending_posts import get_pending_posts
 from posts.usecases.get_approved_posts import get_approved_posts
+from posts.usecases.get_post_summary import get_post_summary
 from posts.infrastructure.persistence.get_repository import get_post_repository
 from drf_spectacular.utils import extend_schema
+from posts.usecases.get_posts_by_user_email import get_posts_by_email
 
 @extend_schema(
     request=PostSerializer,
@@ -96,3 +98,43 @@ class PostApprovedListView(APIView):
         repository = get_post_repository()
         posts = get_approved_posts(repository)
         return Response(PostSerializer(posts, many=True).data, status=status.HTTP_200_OK)
+    
+@extend_schema(
+    responses={
+        200: {
+            "type": "object",
+            "properties": {
+                "approved": {"type": "integer"},
+                "pending": {"type": "integer"},
+                "total": {"type": "integer"},
+            },
+            "example": {
+                "approved": 15,
+                "pending": 4,
+                "total": 19
+            }
+        }
+    },
+    description="Devuelve un resumen con la cantidad de publicaciones aprobadas, pendientes y el total."
+)
+class PostSummaryView(APIView):
+    def get(self, request):
+        repository = get_post_repository()
+        summary = get_post_summary(repository)
+        return Response(summary, status=status.HTTP_200_OK)
+    
+@extend_schema(
+    request={"application/json": {"type": "object", "properties": {"email": {"type": "string"}}}},
+    responses=PostSerializer(many=True),
+    description="Retorna los posts asociados a un correo"
+)
+class PostByEmailView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        if not email:
+            return Response({"detail": "Email requerido"}, status=status.HTTP_400_BAD_REQUEST)
+
+        repository = get_post_repository()
+        posts = get_posts_by_email(repository, email)
+        return Response(PostSerializer(posts, many=True).data, status=status.HTTP_200_OK)
+

@@ -4,6 +4,22 @@ Historial de cambios relevantes en el servicio de publicaciones de ComuniVeci.
 
 ---
 
+## [1.1.0] - 2025-07-13
+
+### ✨ Nuevas funcionalidades
+
+- ➕ Se agregó endpoint POST /api/posts/user/:
+  - Permite consultar publicaciones asociadas a un correo (útil para perfil.html).
+
+- 📈 Se agregó endpoint GET /api/posts/summary/:
+  - Devuelve número de publicaciones aprobadas, pendientes y total.
+  - Diseñado para ser consumido por admin-service.
+
+- ⚙️ Ajuste de settings.py para permitir configuración dinámica vía .env.
+- 🧪 Se corrigieron imports y limpieza de configuración DRF.
+
+---
+
 ## [1.0.0] - 2025-06-10
 
 ### 🚀 Funcionalidades implementadas

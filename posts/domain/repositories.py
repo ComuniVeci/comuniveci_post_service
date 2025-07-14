@@ -27,3 +27,7 @@ class PostRepositoryInterface(ABC):
     def find_approved(self) -> list[dict]:
         """Retorna todos los posts aprobados."""
         pass
+
+    @abstractmethod
+    def find_by_email(self, email: str) -> list[dict]:
+        pass
